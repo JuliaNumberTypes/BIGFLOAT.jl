@@ -30,6 +30,7 @@ include("type/bigfloat.jl")     # precision parameterized type
 include("type/precision.jl")    # get/reset var bit precision, get/set current default
 include("type/eminemax.jl")     # exponent min and max
 include("type/deepcopy.jl")     # <???>
+include("type/cvtother.jl")
 
 include("basics/comparison.jl") # total order relations
 include("basics/fpnumerics.jl") #
@@ -38,6 +39,9 @@ include("basics/floorceil.jl")  #
 
 include("type/convert.jl")      # numeric type interconversions with BigFloat
 
+include("math/arithmetic.jl")
+include("math/power.jl")
+include("math/elementary.jl")
 
 end # module MPFR
 
