@@ -7,7 +7,7 @@ widen{P}(::Type{BigFP{P}}) = BigFP{2*P+24}
 maxintfloat(::Type{BigFP}) = BigFP(2)^precision(BigFP)
 maxintfloat{P}(x::BigFP{P}) = BigFP{P}(2)^precision(x)
 
-signbit{P}(x::BigFP) = ccall((:mpfr_signbit, :libmpfr), Int32, (Ptr{BigFP{P}},), &x) != 0
+signbit{P}(x::BigFP{P}) = ccall((:mpfr_signbit, :libmpfr), Int32, (Ptr{BigFP{P}},), &x) != 0
 
 function copysign{P}(x::BigFP{P}, y::BigFP{P})
     z = BigFP{P}()
