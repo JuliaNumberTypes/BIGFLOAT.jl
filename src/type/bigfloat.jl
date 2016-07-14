@@ -6,7 +6,7 @@ type BigFP{P} <: AbstractFloat
     exp::Clong
     d::Ptr{Limb}
     
-    function BigFP{P}()
+    function BigFP()
         N = precision(BigFP)
         z = new(zero(Clong), zero(Cint), zero(Clong), C_NULL)
         ccall((:mpfr_init2,:libmpfr), Void, (Ptr{BigFP}, Clong), &z, N)
@@ -14,7 +14,7 @@ type BigFP{P} <: AbstractFloat
         return z
     end
     # Not recommended for general use
-    function BigFP{P}(prec::Clong, sign::Cint, exp::Clong, d::Ptr{Void})
+    function BigFP(prec::Clong, sign::Cint, exp::Clong, d::Ptr{Void})
         new(prec, sign, exp, d)
     end
 end
