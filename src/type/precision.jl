@@ -1,9 +1,11 @@
 
-function precision(x::BigFloat)  # precision of an object of type BigFloat
-    return ccall((:mpfr_get_prec, :libmpfr), Clong, (Ptr{BigFloat},), &x)
-end
 
-precision(::Type{BigFloat}) = BIGFLOAT_PRECISION[end]  # precision of the type BigFloat itself
+# The default precision in significand bits for the type family `BigFloat`,
+# which is alterable; this known with certainty only when called.
+precision(::Type{BigFloat}) = BIGFLOAT_PRECISION[end]
+
+# precision in signficand bits of an object of type `BigFloat`
+precision{P}(x::BigFloat{P}) = P
 
 """
     setprecision([T=BigFloat,] precision::Int)
@@ -33,13 +35,13 @@ It is logically equivalent to:
 
 Often used as `setprecision(T, precision) do ... end`
 """
-function setprecision{T}(f::Function, ::Type{T}, prec::Integer)
-    old_prec = precision(T)
-    setprecision(T, prec)
+function setprecision(f::Function, ::Type{BigFloat}, prec::Integer)
+    old_prec = precision(BigFloat)
+    setprecision(BigFloat, prec)
     try
         return f()
     finally
-        setprecision(T, old_prec)
+        setprecision(BigFloat, old_prec)
     end
 end
 

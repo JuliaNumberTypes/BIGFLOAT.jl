@@ -32,7 +32,9 @@ include("type/eminemax.jl")     # exponent min and max
 include("type/deepcopy.jl")     # <???>
 
 include("basics/comparison.jl") # total order relations
+include("basics/fpnumerics.jl") #
 include("basics/rounding.jl")   #
+include("basics/floorceil.jl")  #
 
 include("type/convert.jl")      # numeric type interconversions with BigFloat
 
