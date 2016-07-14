@@ -1,2 +1,2 @@
 # BigFloats..jl
-precision parameterized rewrite of mpfr.jl
+## A precision parameterized rewrite of mpfr.jl (Base)
