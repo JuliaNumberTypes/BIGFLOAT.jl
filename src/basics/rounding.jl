@@ -21,24 +21,24 @@ function from_mpfr(c::Integer)
     RoundingMode(c)
 end
 
-rounding_raw(::Type{BigFloat}) = ROUNDING_MODE[end]
-setrounding_raw(::Type{BigFloat},i::Integer) = ROUNDING_MODE[end] = i
-rounding_raw{P}(::Type{BigFloat{P}}) = rounding_raw(BigFloat)
-setrounding_raw{P}(::Type{BigFloat{P}},i::Integer) = setrounding_raw(BigFloat)
+rounding_raw(::Type{BigFP}) = ROUNDING_MODE[end]
+setrounding_raw(::Type{BigFP},i::Integer) = ROUNDING_MODE[end] = i
+rounding_raw{P}(::Type{BigFP{P}}) = rounding_raw(BigFP)
+setrounding_raw{P}(::Type{BigFP{P}},i::Integer) = setrounding_raw(BigFP)
 
-rounding(::Type{BigFloat}) = from_mpfr(rounding_raw(BigFloat))
-setrounding(::Type{BigFloat},r::RoundingMode) = setrounding_raw(BigFloat,to_mpfr(r))
-rounding{P}(::Type{BigFloat{P}}) = rounding(BigFloat)
-setrounding{P}(::Type{BigFloat{P}},r::RoundingMode) = setrounding(BigFloat,to_mpfr(r))
+rounding(::Type{BigFP}) = from_mpfr(rounding_raw(BigFP))
+setrounding(::Type{BigFP},r::RoundingMode) = setrounding_raw(BigFP,to_mpfr(r))
+rounding{P}(::Type{BigFP{P}}) = rounding(BigFP)
+setrounding{P}(::Type{BigFP{P}},r::RoundingMode) = setrounding(BigFP,to_mpfr(r))
 
 
-function round{P}(x::BigFloat{P})
-    z = BigFloat{P}()
-    ccall((:mpfr_rint, :libmpfr), Int32, (Ptr{BigFloat{P}}, Ptr{BigFloat{P}}, Cint), &z, &x, ROUNDING_MODE[end])
+function round{P}(x::BigFP{P})
+    z = BigFP{P}()
+    ccall((:mpfr_rint, :libmpfr), Int32, (Ptr{BigFP{P}}, Ptr{BigFP{P}}, Cint), &z, &x, ROUNDING_MODE[end])
     return z
 end
-function round{P}(x::BigFloat{P},::RoundingMode{:NearestTiesAway})
-    z = BigFloat{P}()
-    ccall((:mpfr_round, :libmpfr), Int32, (Ptr{BigFloat{P}}, Ptr{BigFloat{P}}), &z, &x)
+function round{P}(x::BigFP{P},::RoundingMode{:NearestTiesAway})
+    z = BigFP{P}()
+    ccall((:mpfr_round, :libmpfr), Int32, (Ptr{BigFP{P}}, Ptr{BigFP{P}}), &z, &x)
     return z
 end

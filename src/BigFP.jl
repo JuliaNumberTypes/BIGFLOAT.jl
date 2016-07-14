@@ -3,7 +3,7 @@
 module MPFR
 
 export
-    BigFloat,
+    BigFP,
     setprecision,
     big_str
 
@@ -37,7 +37,7 @@ include("basics/fpnumerics.jl") #
 include("basics/rounding.jl")   #
 include("basics/floorceil.jl")  #
 
-include("type/convert.jl")      # numeric type interconversions with BigFloat
+include("type/convert.jl")      # numeric type interconversions with BigFP
 
 include("math/arithmetic.jl")
 include("math/power.jl")

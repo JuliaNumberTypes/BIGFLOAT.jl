@@ -1,48 +1,48 @@
 
 
-# The default precision in significand bits for the type family `BigFloat`,
+# The default precision in significand bits for the type family `BigFP`,
 # which is alterable; this known with certainty only when called.
-precision(::Type{BigFloat}) = BIGFLOAT_PRECISION[end]
+precision(::Type{BigFP}) = BIGFLOAT_PRECISION[end]
 
-# precision in signficand bits of an object of type `BigFloat`
-precision{P}(x::BigFloat{P}) = P
+# precision in signficand bits of an object of type `BigFP`
+precision{P}(x::BigFP{P}) = P
 
 """
-    setprecision([T=BigFloat,] precision::Int)
+    setprecision([T=BigFP,] precision::Int)
 
 Set the precision (in bits) to be used for `T` arithmetic.
 """
-function setprecision(::Type{BigFloat}, precision::Int)
+function setprecision(::Type{BigFP}, precision::Int)
     if precision < 2
         throw(DomainError())
     end
     BIGFLOAT_PRECISION[end] = precision
 end
 
-setprecision(precision::Int) = setprecision(BigFloat, precision)
+setprecision(precision::Int) = setprecision(BigFP, precision)
 
 
 """
-    setprecision(f::Function, [T=BigFloat,] precision::Integer)
+    setprecision(f::Function, [T=BigFP,] precision::Integer)
 
 Change the `T` arithmetic precision (in bits) for the duration of `f`.
 It is logically equivalent to:
 
-    old = precision(BigFloat)
-    setprecision(BigFloat, precision)
+    old = precision(BigFP)
+    setprecision(BigFP, precision)
     f()
-    setprecision(BigFloat, old)
+    setprecision(BigFP, old)
 
 Often used as `setprecision(T, precision) do ... end`
 """
-function setprecision(f::Function, ::Type{BigFloat}, prec::Integer)
-    old_prec = precision(BigFloat)
-    setprecision(BigFloat, prec)
+function setprecision(f::Function, ::Type{BigFP}, prec::Integer)
+    old_prec = precision(BigFP)
+    setprecision(BigFP, prec)
     try
         return f()
     finally
-        setprecision(BigFloat, old_prec)
+        setprecision(BigFP, old_prec)
     end
 end
 
-setprecision(f::Function, precision::Integer) = setprecision(f, BigFloat, precision)
+setprecision(f::Function, precision::Integer) = setprecision(f, BigFP, precision)
