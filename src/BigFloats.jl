@@ -24,8 +24,17 @@ import Base.Rounding: rounding_raw, setrounding_raw
 import Base.GMP: ClongMax, CulongMax, CdoubleMax, Limb
 import Base.Math.lgamma_r
 
-include("type/type_mpfr.jl")
+include("initialize.jl")        # module __init__ and consts
 
+include("type/bigfloat.jl")     # precision parameterized type
+include("type/precision.jl")    # get/reset var bit precision, get/set current default
+include("type/eminemax.jl")     # exponent min and max
+include("type/deepcopy.jl")     # <???>
+
+include("basics/comparison.jl") # total order relations
+include("basics/rounding.jl")   #
+
+include("type/convert.jl")      # numeric type interconversions with BigFloat
 
 
 end # module MPFR
