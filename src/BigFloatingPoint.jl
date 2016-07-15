@@ -30,14 +30,15 @@ include("type/bigfloat.jl")     # precision parameterized type
 include("type/precision.jl")    # get/reset var bit precision, get/set current default
 include("type/eminemax.jl")     # exponent min and max
 include("type/deepcopy.jl")     # <???>
-include("type/cvtother.jl")
+#include("type/cvtother.jl")
+
+include("type/convert.jl")      # numeric type interconversions with BigFP
 
 include("basics/comparison.jl") # total order relations
 include("basics/fpnumerics.jl") #
 include("basics/rounding.jl")   #
 include("basics/floorceil.jl")  #
 
-include("type/convert.jl")      # numeric type interconversions with BigFP
 
 include("math/arithmetic.jl")
 include("math/power.jl")
