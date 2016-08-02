@@ -42,7 +42,7 @@ const DEFAULT_PRECISION = [256]
 
 # Basic type and initialization definitions
 
-type BigFP <: AbstractFloat
+type BigFP{P} <: AbstractFloat
     prec::Clong
     sign::Cint
     exp::Clong
@@ -60,17 +60,28 @@ type BigFP <: AbstractFloat
     end
 end
 
-widen(::Type{Float64}) = BigFP
-widen(::Type{BigFP}) = BigFP
+BigFP{P}(::Type{BigFP{P}}) = BigFP(((Clong)P), zero(Cint), zero(Clong), C_NULL)
 
+precision{P}(::Type{BigFP{P}) = P
+precision{P}(x::BigFP{P}) = P
+precision{T<:BigFP}(::Type{T}) = DEFAULT_PRECISION[1]
+precision{T<:BigFP}(x::T) = precision(T)
+
+
+
+widen(::Type{Float64}) = BigFP{precision{BigFP}}
+widen(::Type{BigFP}) = BigFP
+widen{P}(::Type{BigFP{P}}) = BigFP{P}
+
+convert{P}(::Type{BigFP{P}}, x::BigFP{P}) = x
 convert(::Type{BigFP}, x::BigFP) = x
 
 # convert to BigFP
 for (fJ, fC) in ((:si,:Clong), (:ui,:Culong), (:d,:Float64))
     @eval begin
-        function convert(::Type{BigFP}, x::($fC))
-            z = BigFP()
-            ccall(($(string(:mpfr_set_,fJ)), :libmpfr), Int32, (Ptr{BigFP}, ($fC), Int32), &z, x, ROUNDING_MODE[])
+        function convert{P}(::Type{BigFP}, x::($fC))
+            z = BigFP{P}()
+            ccall(($(string(:mpfr_set_,fJ)), :libmpfr), Int32, (Ptr{BigFP{P}}, ($fC), Int32), &z, x, ROUNDING_MODE[])
             return z
         end
     end
