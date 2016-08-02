@@ -80,7 +80,7 @@ convert(::Type{BigFP}, x::BigFP) = x
 for (fJ, fC) in ((:si,:Clong), (:ui,:Culong), (:d,:Float64))
     @eval begin
         function convert{P}(::Type{BigFP}, x::($fC))
-            z = BigFP{P}()
+            z = BigFP{P}(BigFP{P})
             ccall(($(string(:mpfr_set_,fJ)), :libmpfr), Int32, (Ptr{BigFP{P}}, ($fC), Int32), &z, x, ROUNDING_MODE[])
             return z
         end
