@@ -62,7 +62,7 @@ end
 
 BigFP{P}(::Type{BigFP{P}}) = BigFP(((Clong)P), zero(Cint), zero(Clong), C_NULL)
 
-precision{P}(::Type{BigFP{P}) = P
+precision{P}(::Type{BigFP{P}}) = P
 precision{P}(x::BigFP{P}) = P
 precision{T<:BigFP}(::Type{T}) = DEFAULT_PRECISION[1]
 precision{T<:BigFP}(x::T) = precision(T)
