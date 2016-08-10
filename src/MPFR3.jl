@@ -954,7 +954,7 @@ function convert{BF1<:BigFloat, BF2<:BigFloat}(::Type{BF1}, x::BF2)
     return parse(BF1, string(x))
 end
 function promote_rule{BF1<:BigFloat, BF2<:BigFloat}(::Type{BF1}, ::Type{BF2})
-    return ifelse(precision(BF1) < precision(BF2), BF2, BF1)
+    return ifelse(precision(BF1) > precision(BF2), BF2, BF1)
 end
 
 (+){BF1<:BigFloat, BF2<:BigFloat}(a::BF1, b::BF2) = (+)(promote(a,b)...)
